@@ -14,6 +14,6 @@ export class UsersController {
     user.firstName = "hehe";
     user.lastName = 'haha';
     user.isActive = false;
-    user.save()
+    return await user.save()
   }
 }
