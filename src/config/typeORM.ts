@@ -11,5 +11,5 @@ export const typeOrmConfig = {
   database,
   synchronize,
   logging,
-  entities: [__dirname + '/../**/*.entity.{js, ts}'],
+  autoLoadEntities: true,
 };

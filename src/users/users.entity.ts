@@ -1,16 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import { Entity, Column, Index } from 'typeorm';
+import { Base } from '../common/base.entity';
 
-@Entity()
-export class Users extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+@Entity('users')
+export class Users extends Base {
+  @Column()
+  email: string;
 
   @Column()
-  firstName: string;
+  @Index({ unique: true })
+  username: string;
 
-  @Column()
-  lastName: string;
+  @Column('text')
+  password: string;
 
-  @Column({ default: true })
+  @Column({default: true})
   isActive: boolean;
 }
