@@ -1,23 +1,48 @@
-import { Post } from './post.entity';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreatePostInput } from './dto/create.input';
-import { Injectable } from '@nestjs/common';
+import { Post } from './post.entity';
+import { PostInput } from './dto/create-post.input';
 import { User } from '../users/user.entity';
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectRepository(Post)
-    private readonly usersRepository: Repository<Post>,
+    private readonly postsRepository: Repository<Post>,
   ) {}
 
-  async create(createData: CreatePostInput, user: User): Promise<Post> {
-    return this.usersRepository
+  async all(): Promise<Post[]> {
+    return this.postsRepository.find();
+  }
+
+  async one(id: number): Promise<Post> {
+    return this.postsRepository.findOneOrFail(id);
+  }
+
+  async createPost(createPostData: PostInput, user: User): Promise<Post> {
+    return this.postsRepository
       .create({
-        ...createData,
-        user
+        ...createPostData,
+        user,
       })
       .save();
+  }
+
+  async updatePost(
+    id: number,
+    updatePostData: PostInput,
+    user: User,
+  ): Promise<Post> {
+    let post = await this.postsRepository.findOneOrFail({ id, user });
+
+    return await this.postsRepository.save({ post, ...updatePostData });
+  }
+
+  async deletePost(id: number): Promise<string> {
+    let post = await this.postsRepository.findOneOrFail({ id });
+
+    await this.postsRepository.remove(post);
+    return 'deleted successfully';
   }
 }

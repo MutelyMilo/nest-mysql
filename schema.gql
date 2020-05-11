@@ -26,12 +26,16 @@ type User {
 
 type Query {
   hello: String!
+  getPosts: [Post]!
+  getPost(id: Int!): Post!
 }
 
 type Mutation {
   register(data: RegisterInput!): User!
   login(data: LoginInput!): User!
-  createPost(data: CreatePostInput!): Post!
+  createPost(data: PostInput!): Post!
+  deletePost(id: Int!): String!
+  updatePost(data: PostInput!, id: Int!): Post!
 }
 
 input RegisterInput {
@@ -46,6 +50,6 @@ input LoginInput {
   password: String!
 }
 
-input CreatePostInput {
+input PostInput {
   body: String!
 }
