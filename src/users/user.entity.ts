@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import config from '../config/configuration';
 import { Post } from '../posts/post.entity';
 import { JwtPayload } from '../auth/jwtpayload.interface';
+import { Exclude, classToPlain } from 'class-transformer';
 
 @Entity('users')
 @ObjectType()
@@ -20,10 +21,14 @@ export class User extends Base {
   username: string;
 
   @Column('text')
+  @Exclude()
   password: string;
 
-  @OneToMany(() => Post, post => post.user)
-  posts: Post[]
+  @OneToMany(
+    () => Post,
+    post => post.user,
+  )
+  posts: Post[];
 
   @BeforeInsert()
   async hashPassword() {
@@ -34,7 +39,11 @@ export class User extends Base {
   get token() {
     const payload: JwtPayload = { id: this.id, username: this.username };
     return jwt.sign(payload, config.auth.secretKey, {
-      expiresIn: "1d"
+      expiresIn: '5d',
     });
+  }
+
+  toJSON() {
+    return classToPlain(this);
   }
 }
