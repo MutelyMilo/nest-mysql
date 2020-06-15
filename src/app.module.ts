@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
+// 渲染前端静态代码需要的
 // import { ServeStaticModule } from '@nestjs/serve-static';
 // import { join } from 'path';
 

@@ -39,6 +39,7 @@ type User {
 
 type Query {
   hello: String!
+  getUsers: [User!]
   getPosts: [Post]!
   getPost(id: Int!): Post!
 }

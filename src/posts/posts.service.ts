@@ -58,27 +58,27 @@ export class PostsService {
     updatePostData: UpdatePostInput,
     user: User,
   ): Promise<Post> {
-    let post = await this.postsRepository.findOneOrFail({ id, user });
+    const post = await this.postsRepository.findOneOrFail({ id, user });
 
     return await this.postsRepository.save({ post, ...updatePostData });
   }
 
   async deletePost(id: number, user: User): Promise<boolean> {
-    let post = await this.postsRepository.findOneOrFail({ id, user });
+    const post = await this.postsRepository.findOneOrFail({ id, user });
 
     await this.postsRepository.remove(post);
     return true;
   }
 
   async deleteComment(id: number, user: User): Promise<boolean> {
-    let comment = await this.commentsRepository.findOneOrFail({ id, user });
+    const comment = await this.commentsRepository.findOneOrFail({ id, user });
 
     await this.commentsRepository.remove(comment);
     return true;
   }
 
   async likePost(id: number, user: User): Promise<Post> {
-    let post = await this.postsRepository.findOneOrFail(id, {
+    const post = await this.postsRepository.findOneOrFail(id, {
       relations: ['likes'],
     });
     if (post.likes && post.likes.find(like => like.id === user.id)) {

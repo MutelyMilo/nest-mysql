@@ -12,6 +12,11 @@ export class UsersResolver {
   hello() {
     return 'hello world';
   }
+  
+  @Query(() => [User], { nullable: true })
+  async getUsers() {
+    return await this.usersService.all();
+  }
 
   @Mutation(() => User)
   register(@Args('data') registerData: RegisterInput): Promise<User> {
